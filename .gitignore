@@ -1,0 +1,20 @@
+# Dependencies and caches
+uth-question-importer/node_modules/
+uth-question-importer/.npm-cache/
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Generated packages
+UTH-Question-Importer-v*.zip
+UTH-Question-Importer-v*.user.js
+
+# Generated test artifacts
+uth-question-importer/test-results/
+
+# Editor and operating-system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

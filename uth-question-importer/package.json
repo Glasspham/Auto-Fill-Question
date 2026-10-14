@@ -1,0 +1,16 @@
+{
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/core.test.js tests/background.test.js",
+    "test:fixtures": "node --test tests/page.test.js",
+    "test:browser": "node tests/browser-smoke.js",
+    "test:userscript": "node tests/userscript-smoke.js",
+    "build:userscript": "node scripts/build-userscript.mjs",
+    "package": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/package.ps1"
+  },
+  "devDependencies": {
+    "jsdom": "^29.1.1",
+    "playwright": "^1.63.0"
+  }
+}

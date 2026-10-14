@@ -1,0 +1,33 @@
+{
+  "manifest_version": 3,
+  "name": "UTH Question Importer",
+  "version": "1.5.8",
+  "description": "Nhập Excel, CSV, Markdown hoặc TXT và tự điền câu hỏi nhiều lựa chọn trên courses.ut.edu.vn.",
+  "minimum_chrome_version": "120",
+  "permissions": [
+    "storage",
+    "scripting",
+    "alarms"
+  ],
+  "host_permissions": [
+    "https://courses.ut.edu.vn/*"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "icons": {
+    "16": "logo.png",
+    "32": "logo.png",
+    "48": "logo.png",
+    "128": "logo.png"
+  },
+  "action": {
+    "default_title": "Mở UTH Question Importer",
+    "default_icon": {
+      "16": "logo.png",
+      "24": "logo.png",
+      "32": "logo.png"
+    }
+  }
+}

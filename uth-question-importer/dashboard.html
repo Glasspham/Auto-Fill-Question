@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link rel="icon" type="image/png" href="logo.png" />
+    <title>UTH Question Importer</title>
+    <script src="theme-init.js"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <img
+      class="uth-logo"
+      src="logo_uth.png"
+      alt="University of Transport Ho Chi Minh City"
+    />
+    <button
+      id="themeToggle"
+      class="theme-toggle"
+      type="button"
+      aria-label="Chuyển giao diện"
+      title="Chuyển giao diện"
+    >
+      <span aria-hidden="true">☀</span>
+    </button>
+    <main>
+      <header>
+        <span class="badge">UTH · QUESTION IMPORTER</span>
+        <h1>Từ file câu hỏi đến ngân hàng Moodle.</h1>
+        <p>
+          Nhận Excel, CSV, Markdown hoặc TXT; kiểm tra nội dung, xem trước đáp
+          án và nhập bằng phiên đăng nhập của bạn.
+        </p>
+      </header>
+      <div class="layout">
+        <section class="card">
+          <h2>1. Chuẩn bị câu hỏi</h2>
+          <p>
+            Mỗi dòng một câu, 2–5 lựa chọn, một đáp án đúng. Nội dung là văn bản
+            thuần, giữ xuống dòng.
+          </p>
+          <div class="actions">
+            <button id="demo" class="secondary">Xem dữ liệu mẫu</button
+            ><button id="openPreview" class="secondary" disabled>
+              Xem trước câu hỏi
+            </button>
+          </div>
+          <label class="upload"
+            >Chọn Excel, CSV, Markdown hoặc TXT UTF-8<input
+              id="file"
+              type="file"
+              accept=".xlsx,.csv,.md,.txt"
+          /></label>
+          <div class="file-meta">
+            <p id="fileName" class="muted">
+              Chưa chọn file · tối đa 5 MB / 1000 câu
+            </p>
+            <button
+              id="infoButton"
+              class="info-button"
+              aria-label="Xem quy ước file"
+              title="Quy ước file"
+            >
+              i
+            </button>
+          </div>
+          <div id="validation" role="status" aria-live="polite"></div>
+        </section>
+        <section class="card">
+          <h2>2. Kết nối website</h2>
+          <select id="tabs" hidden aria-hidden="true"></select
+          ><button id="refresh" class="secondary">
+            Đọc lại website và danh mục
+          </button>
+          <p id="connection" role="status">
+            Mở tiện ích từ tab ngân hàng câu hỏi UTH.
+          </p>
+          <label
+            >Danh mục cho đợt nhập<select id="category" disabled>
+              <option value="">
+                Theo file / danh mục đang chọn trên website
+              </option>
+            </select></label
+          >
+          <p class="muted">
+            Chọn một danh mục để áp dụng cho toàn bộ đợt, ưu tiên hơn danh mục
+            trong file.
+          </p>
+          <div class="actions start-row">
+            <button id="start" disabled>Bắt đầu</button
+            ><span
+              id="startReason"
+              class="status-badge"
+              data-state="waiting"
+              role="status"
+              >Đang kiểm tra…</span
+            ><button id="discardJob" class="secondary" hidden>
+              Kết thúc đợt cũ
+            </button>
+          </div>
+        </section>
+      </div>
+      <dialog id="previewDialog" aria-labelledby="previewTitle">
+        <div class="dialog-header">
+          <h2 id="previewTitle">
+            Xem trước <span id="count" class="badge">0 câu</span>
+          </h2>
+          <div class="dialog-actions">
+            <button id="template" hidden>Tải Excel mẫu</button
+            ><button id="xml" class="secondary" hidden>Xuất Moodle XML</button
+            ><button
+              id="closePreview"
+              class="secondary"
+              aria-label="Đóng xem trước"
+            >
+              Đóng ✕
+            </button>
+          </div>
+        </div>
+        <label>Chọn câu<select id="question"></select></label>
+        <p class="muted">
+          Thứ tự điền vào form: đáp án đúng ở Choice 1, No numbering. Nếu bật
+          xáo trộn, thứ tự hiển thị khi làm bài có thể thay đổi.
+        </p>
+        <article id="preview"></article>
+        <p id="xmlNote" class="muted" hidden>
+          XML được dùng riêng qua mục “Nhập” của Moodle và không bảo toàn trạng
+          thái draft/ready.
+        </p>
+      </dialog>
+      <dialog id="rulesDialog" aria-labelledby="rulesTitle">
+        <div class="dialog-header">
+          <h2 id="rulesTitle">Quy ước file</h2>
+          <button id="closeRules" class="secondary" aria-label="Đóng quy ước">
+            Đóng ✕
+          </button>
+        </div>
+        <h3>Excel / CSV</h3>
+        <p>Các cột: ma_cau (hoặc ID / Số ID), danh_muc, ten_cau (hoặc Name / Tên câu hỏi), noi_dung, A…E, dap_an_dung, diem, giai_thich, tron_dap_an, trang_thai, phan_hoi_A…E.</p>
+        <h3>Markdown / TXT</h3>
+        <p>Mỗi khối bắt đầu bằng <b>Question 1.</b>, <b>Câu 1.</b> hoặc <b>Ex 1.</b>; lựa chọn A)–E); dòng <b>Answer: B</b> hoặc <b>Đáp án: B</b>. Ngay dưới đó có thể thêm <b>Name / Tên câu hỏi</b> và <b>ID / Số ID</b>; Explanation/Giải thích là tùy chọn.</p>
+        <p>
+          Tool luôn chọn No numbering và chuyển đáp án đúng cùng phản hồi lên
+          Choice 1.
+        </p>
+      </dialog>
+      <section class="card">
+        <h2>Tiến độ và nhật ký</h2>
+        <progress id="progress" value="0" max="1"></progress>
+        <p id="status" role="status" aria-live="polite">Chưa có đợt nhập.</p>
+        <p id="nextAction" class="next-action" hidden></p>
+        <div class="actions progress-actions">
+          <button id="save" hidden>Lưu &amp; xem câu tiếp theo</button
+          ><button id="autoContinue" class="auto-button" hidden>
+            Auto hoàn thành phần còn lại</button
+          ><button id="pause" class="secondary" hidden>Tạm dừng Auto</button
+          ><button id="resume" hidden>Tiếp tục</button
+          ><button id="resolved" class="secondary" hidden>
+            Tôi đã tự lưu trên website</button
+          ><button id="notSaved" class="secondary" hidden>
+            Xác nhận: câu chưa lưu</button
+          ><button id="cancel" class="danger-button" hidden>Kết thúc đợt</button
+          ><button id="exportLog" class="secondary">Tải nhật ký</button>
+        </div>
+        <p id="notice" role="alert"></p>
+        <pre id="logs"></pre>
+      </section>
+      <footer>
+        Được tạo bởi
+        <a href="https://github.com/Glasspham" target="_blank" rel="noopener noreferrer"
+          >Glasspham</a
+        >.
+      </footer>
+    </main>
+    <script src="vendor/xlsx.full.min.js"></script>
+    <script type="module" src="dashboard.js"></script>
+  </body>
+</html>

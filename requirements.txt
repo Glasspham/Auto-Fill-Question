@@ -1,0 +1,10 @@
+# UTH Question Importer currently uses only Python's standard library.
+# No third-party Python packages are required.
+#
+# Install this file safely with:
+#   python -m pip install -r requirements.txt
+#
+# JavaScript development dependencies are managed separately with:
+#   cd uth-question-importer
+#   npm ci
+
